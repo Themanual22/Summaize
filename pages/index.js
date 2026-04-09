@@ -14,6 +14,7 @@ function getUsage() {
     return raw ? JSON.parse(raw) : { free: 0, paid: 0, unlocked: false };
   } catch { return { free: 0, paid: 0, unlocked: false }; }
 }
+
 function saveUsage(u) {
   if (typeof window !== "undefined") localStorage.setItem("summaize_usage", JSON.stringify(u));
 }
@@ -139,6 +140,7 @@ export default function Home() {
   const isUnlocked = usage.unlocked;
   const freeUsed = usage.free;
   const meterPct = isUnlocked ? 100 : Math.min((freeUsed / FREE_SUMMARY_LIMIT) * 100, 100);
+
   const scrollToTool = () => toolRef.current?.scrollIntoView({ behavior: "smooth" });
 
   async function handleSummarize() {
@@ -183,16 +185,13 @@ export default function Home() {
       <Head>
         <title>SUMMAIZE — AI Document Summarizer</title>
         <meta name="description" content="Paste anything. Get the point. AI-powered document summarizer." />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
       <style>{css}</style>
-
       <nav className="nav">
         <div className="nav-logo">{SITE_NAME}</div>
         <div className="nav-badge">Claude AI + Stripe</div>
         <button className="nav-cta" onClick={scrollToTool}>Try Free →</button>
       </nav>
-
       <div className="hero">
         <div className="hero-eyebrow">AI Document Summarizer</div>
         <h1 className="hero-title">Paste anything.<br /><span>Get the point.</span></h1>
@@ -202,13 +201,11 @@ export default function Home() {
           <button className="btn-ghost" onClick={() => document.querySelector(".pricing-section")?.scrollIntoView({ behavior: "smooth" })}>See Pricing</button>
         </div>
       </div>
-
       <div className="trust">
         {["Claude AI Intelligence","Stripe Secure Payments","No Account Required","Instant Output","3 Free Summaries"].map(t => (
           <div className="trust-item" key={t}><div className="trust-dot" />{t}</div>
         ))}
       </div>
-
       <div className="section">
         <div className="section-label">How It Works</div>
         <h2 className="section-title">Three steps to clarity</h2>
@@ -218,7 +215,6 @@ export default function Home() {
           ))}
         </div>
       </div>
-
       <div className="section" ref={toolRef} style={{paddingTop:0}}>
         <div className="section-label">The Tool</div>
         <h2 className="section-title">Start summarizing</h2>
@@ -248,7 +244,6 @@ export default function Home() {
           </div>
         )}
       </div>
-
       <div className="section pricing-section" style={{paddingTop:0}}>
         <div className="section-label">Pricing</div>
         <h2 className="section-title" style={{marginBottom:"32px"}}>Simple. One-time. No subscription.</h2>
@@ -262,13 +257,11 @@ export default function Home() {
           <button className="btn-primary" onClick={()=>window.open(STRIPE_PAYMENT_LINK,"_blank")}>Get Access →</button>
         </div>
       </div>
-
       <footer className="footer">
         <div className="footer-logo">{SITE_NAME}</div>
         <div className="footer-meta">Payments secured by Stripe</div>
         <div className="footer-meta">🔒 SSL Encrypted</div>
       </footer>
-
       {showPaywall && (
         <div className="modal-overlay" onClick={()=>setShowPaywall(false)}>
           <div className="modal" onClick={e=>e.stopPropagation()}>
@@ -291,4 +284,4 @@ export default function Home() {
       )}
     </div>
   );
-        }
+}
